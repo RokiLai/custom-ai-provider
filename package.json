@@ -1,6 +1,6 @@
 {
   "name": "custom-ai-provider",
-  "title": "AI Translator",
+  "title": "Custom AI Translator",
   "description": "Translate text with your own third-party AI providers in Raycast.",
   "version": "0.1.0",
   "icon": "extension-icon.png",
@@ -72,7 +72,7 @@
   "commands": [
     {
       "name": "chat-with-provider",
-      "title": "AI Translator",
+      "title": "Custom AI Translator",
       "description": "Translate text with a configured third-party AI provider",
       "mode": "view"
     },
@@ -87,7 +87,8 @@
     "build": "npx ray build -e dist",
     "dev": "npx ray develop",
     "lint": "npx ray lint",
-    "fix-lint": "npx ray lint --fix"
+    "fix-lint": "npx ray lint --fix",
+    "publish": "npx @raycast/api@latest publish"
   },
   "dependencies": {
     "@raycast/api": "1.104.11",

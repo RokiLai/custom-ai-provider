@@ -1,42 +1,47 @@
-# AI Translator
+# Custom AI Translator
 
-一个 Raycast 扩展，通过扩展设置配置单个第三方 AI Provider，并向你填写的精确请求地址发起翻译请求。
+Custom AI Translator is a Raycast extension that lets you translate text with your own third-party AI provider.
 
-## 功能
+Instead of locking you into a single service, the extension sends translation requests to the exact endpoint you configure in Raycast preferences.
 
-- 支持在扩展设置中配置 Provider
-- 支持配置 `Base URL`、`API Key`、默认模型、额外请求头
-- 支持配置请求超时，避免第三方接口长时间无响应
-- 支持自动检测源语言并翻译到目标语言
-- 当前版本聚焦单 Provider 配置，所有命令共享同一套设置
-- 支持自定义第三方 Provider 地址，不自动补全路径
+## Features
 
-## 使用方式
+- Configure a single custom AI provider in Raycast preferences
+- Set `Base URL`, `API Key`, default model, extra headers, and timeout
+- Translate text into both Simplified Chinese and English
+- Auto-detect the source language
+- Use your own full request URL without automatic path rewriting
+- Quickly translate the selected text from the frontmost app
 
-1. 执行 `npm install`
-2. 执行 `npm run dev`
-3. 在 Raycast 中打开扩展设置，填写 Provider 信息，例如：
+## Setup
+
+1. Run `npm install`
+2. Run `npm run dev`
+3. Open the extension preferences in Raycast
+4. Fill in your provider settings, for example:
    - Provider Name: `ChatGPT`
    - Base URL: `https://api.openai.com/v1/chat/completions`
-   - API Key: 你的密钥
-   - Model: 例如 `gpt-5.4`
-4. 打开 `AI Translator`
-5. 输入要翻译的文本
+   - API Key: your key
+   - Model: `gpt-5.4`
+5. Open `Custom AI Translator`
+6. Type or paste text and press Enter to translate
 
-## Provider 填写建议
+## Provider Notes
 
-- `Base URL` 会被当成最终请求地址直接使用，不会自动补全任何路径
-- 如果你的平台要求完整接口地址，例如 `/chat/completions` 或其他自定义路径，请直接填完整地址
-- 额外请求头支持两种格式：
-  - JSON：`{"X-Source":"raycast"}`
-  - 每行一个：`X-Source: raycast`
+- `Base URL` is used as the final request URL exactly as entered
+- No API path is appended automatically
+- If your provider expects a full endpoint such as `/chat/completions`, enter the complete URL
+- Extra headers support two formats:
+  - JSON: `{"X-Source":"raycast"}`
+  - One header per line: `X-Source: raycast`
 
-## 当前实现
+## Commands
 
-当前版本聚焦单 Provider，并直接请求你配置的目标地址。如果你后面想继续扩展，我可以再帮你补：
+- `Custom AI Translator`: open the main translation interface
+- `Translate Selected Text`: translate the current selection from the frontmost app
 
-- 流式翻译输出
-- OCR 图片翻译
-- 剪贴板自动翻译
-- 历史翻译记录
-- 适配非 OpenAI 协议的 Provider
+## Development
+
+- `npm run lint`: validate the extension and formatting
+- `npm run build`: build and validate the extension for distribution
+- `npm run publish`: publish the extension through the Raycast publishing flow
