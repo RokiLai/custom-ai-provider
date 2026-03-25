@@ -49,6 +49,13 @@ function renderTranslatorMarkdown(params: {
 }) {
   const { provider, sourceText, translatedText, isTranslating, lastError, configError } = params;
 
+  function renderQuoteBlock(content: string) {
+    return content
+      .split("\n")
+      .map((line) => `> ${line || " "}`)
+      .join("\n");
+  }
+
   // 没有 provider 时，优先展示配置错误；否则提示用户先去配置。
   if (!provider) {
     return configError ? `# Provider configuration error\n\n${configError}` : "# Configure a provider first";
@@ -60,25 +67,48 @@ function renderTranslatorMarkdown(params: {
 
   // 初始状态下，如果既没有输入也没有结果，就展示最基础的操作提示。
   if (!sourceText.trim() && !translatedText.trim()) {
-    sections.push("Type text in the search bar above and press Enter to translate.");
+    sections.push(
+      [
+        "# Translation Result",
+        "",
+        "## Chinese",
+        "",
+        "> Translation will appear here after you submit some text.",
+        "",
+        "## English",
+        "",
+        "> Translation will appear here after you submit some text.",
+      ].join("\n"),
+    );
   } else {
     // 如果能成功拆出中英两段，就分区显示；否则按单段翻译结果展示。
     if (chinese || english) {
-      sections.push(`## Chinese\n\n${chinese || "-"}`);
-      sections.push(`## English\n\n${english || "-"}`);
+      sections.push(
+        [
+          "# Translation Result",
+          "",
+          "## Chinese",
+          "",
+          renderQuoteBlock(chinese || "-"),
+          "",
+          "## English",
+          "",
+          renderQuoteBlock(english || "-"),
+        ].join("\n"),
+      );
     } else if (translatedText.trim()) {
-      sections.push(`## Translation\n\n${translatedText}`);
+      sections.push(["# Translation Result", "", "## Translation", "", renderQuoteBlock(translatedText)].join("\n"));
     }
   }
 
   // 翻译进行中时，在详情区追加一条状态提示。
   if (isTranslating) {
-    sections.push("Translating...");
+    sections.push("`Translating...`");
   }
 
   // 请求报错时，把错误原文包进代码块，便于阅读和复制。
   if (lastError) {
-    sections.push(`\`\`\`\n${lastError}\n\`\`\``);
+    sections.push(`## Request Error\n\n\`\`\`\n${lastError}\n\`\`\``);
   }
 
   return sections.join("\n\n---\n\n");
